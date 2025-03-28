@@ -78,3 +78,81 @@ ON tb_itens_pedido.pedido_id = tb_pedidos.pedido_id
 GROUP BY pedido_data
 HAVING COUNT(item_id) > 1
 -------------------------------------------------------------------------------------------------------------------------------
+
+12. Exiba os produtos com preço maior que R$ 100,00. = 
+SELECT produto_id, produto_preco 
+FROM tb_produtos JOIN tb_pedidos_produtos
+ON tb_produtos.produto_id = tb_pedidos_produtos.pedido_produto_preco_unitario
+WHERE (pedido_produto_preco_unitario) > 100;
+-------------------------------------------------------------------------------------------------------------------------------
+
+13. Mostre os pedidos com status ‘Entregue’. =
+SELECT pedido_id, pedido_status FROM tb_pedidos WHERE pedido_status = 'Entregue';
+-------------------------------------------------------------------------------------------------------------------------------
+
+14. Liste os pagamentos realizados via ‘Pix’. =
+SELECT pagamento_id, pagamento_tipo FROM tb_pagamentos WHERE pagamento_tipo = 'Pix';
+-------------------------------------------------------------------------------------------------------------------------------
+
+15. Exiba as avaliações que receberam nota maior ou igual a 4. =
+SELECT avaliacao_nota FROM tb_avaliacoes WHERE avaliacao_nota >= 4;
+-------------------------------------------------------------------------------------------------------------------------------
+
+16. Liste os pedidos e os nomes dos usuários que realizaram esses pedidos. =
+SELECT pedido_id, usuario_nome 
+FROM tb_pedidos
+JOIN tb_usuarios
+ON tb_usuarios.usuario_id = tb_pedidos.usuario_id
+JOIN tb_avaliacoes
+ON tb_usuarios.usuario_id = tb_avaliacoes.usuario_id
+WHERE avaliacao_nota >= 4;
+-------------------------------------------------------------------------------------------------------------------------------
+
+17. Exiba os produtos e suas respectivas categorias. =
+SELECT produto_nome, categoria_nome
+FROM tb_produtos
+JOIN tb_produtos_categorias
+ON tb_produtos.produto_id = tb_produtos_categorias.produto_id
+JOIN tb_categorias
+ON tb_categorias.categoria_id = tb_produtos_categorias.categoria_id;
+-------------------------------------------------------------------------------------------------------------------------------
+
+18. Mostre os pedidos com os produtos comprados e suas respectivas quantidades. =
+SELECT pagamento_status, pedido_produto_quantidade
+FROM tb_pedidos
+JOIN tb_pagamentos
+ON tb_pagamentos.pedido_id = tb_pedidos.pedido_id
+JOIN tb_pedidos_produtos
+ON tb_pedidos_produtos.pedido_id = tb_pedidos.pedido_id;
+-------------------------------------------------------------------------------------------------------------------------------
+
+19. Exiba os pagamentos realizados e os respectivos pedidos com status de pagamento ‘Aprovado’. =
+SELECT pagamento_status, tb_pedidos.pedido_id
+FROM tb_pagamentos
+JOIN tb_pedidos
+ON tb_pedidos.pedido_id = tb_pagamentos.pedido_id
+WHERE pagamento_status = 'Aprovado';
+-------------------------------------------------------------------------------------------------------------------------------
+
+20. Liste as avaliações feitas por cada usuário, incluindo o nome do usuário e o nome do produto avaliado. =
+SELECT avaliacao_nota, usuario_nome, produto_nome
+FROM tb_avaliacoes
+JOIN tb_usuarios
+ON tb_usuarios.usuario_id = tb_avaliacoes.usuario_id
+JOIN tb_produtos
+ON tb_produtos.produto_id = tb_avaliacoes.produto_id;
+-------------------------------------------------------------------------------------------------------------------------------
+
+21. Liste todos os usuários e, se existirem, os endereços cadastrados. (Inclua usuários sem endereço) =
+SELECT usuario_nome, endereco_id
+FROM tb_usuarios
+JOIN tb_enderecos
+ON tb_enderecos.usuario_id = tb_usuarios.usuario_id;
+-------------------------------------------------------------------------------------------------------------------------------
+
+22. Mostre todos os produtos e, se houver, as avaliações recebidas. (Inclua produtos sem avaliação) =
+SELECT produto_nome, avaliacao_comentario
+FROM tb_produtos
+JOIN tb_avaliacoes
+ON tb_avaliacoes.produto_id = tb_produtos.produto_id;
+-------------------------------------------------------------------------------------------------------------------------------
